@@ -4,34 +4,37 @@ import java.util.Scanner;
 public class ex22 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        File fitxer = new File("usertext.txt");
 
-        // Escriure cadenes a usertext.txt
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fitxer))) {
+        try {
+            FileWriter fw = new FileWriter("usertext.txt");
+
             while (true) {
                 System.out.print("Introdueix una cadena (quit per sortir): ");
                 String entrada = sc.nextLine();
 
                 if (entrada.equals("quit")) {
-                    break;
+                    break; 
                 }
 
-                bw.write(entrada);
-                bw.newLine(); 
+                fw.write(entrada + "\n");
             }
-        } catch (IOException e) {
-            System.out.println("Error en escriure al fitxer: " + e.getMessage());
-        }
 
-        // Llegir i mostrar el contingut del fitxer
-        System.out.println("\nContingut de usertext.txt:");
-        try (BufferedReader br = new BufferedReader(new FileReader(fitxer))) {
+            fw.close(); 
+
+            FileReader fr = new FileReader("usertext.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+            System.out.println("\nContingut de usertext.txt:");
             String linia;
             while ((linia = br.readLine()) != null) {
                 System.out.println(linia);
             }
+
+            br.close();
+            fr.close();
+
         } catch (IOException e) {
-            System.out.println("Error en llegir el fitxer: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
